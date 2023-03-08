@@ -33,7 +33,7 @@
                     id: "ball_" + i.toString(), //id of the div
                     x: randomInt(0, containerWidth - ballDiameter), //generates random coordinates on canvas
                     y: randomInt(0, containerHeight - ballDiameter),
-                    xDirection: randomInt(0, 1), //1 for down, 0 for up
+                    xDirection: randomInt(0, 1), //1 for right, 0 for left
                     yDirection: randomInt(0, 1), //1 for down, 0 for up
                     xSpeed: randomFloat(0.5, 6),
                     ySpeed: randomFloat(0.5, 6)
@@ -172,11 +172,11 @@
                 document.getElementById("container").style.height = containerHeight + "px";
             }
 
-            //delete all old divs and ball objects
+            //delete all old divs
             for (let i = 0; i < balls.length; i++) {
                 document.getElementById(balls[i].id).remove();
             }
-
+            //clear the ball list and make new ones
             balls = [];
             createBalls(numBalls);
         }
@@ -195,7 +195,7 @@
         </script>
     </main>
 
-    <form id="form">
+    <form id="inputs">
         <label for="number_of_balls">Number of Balls:</label>
         <input type="text" id="number_of_balls">
 
