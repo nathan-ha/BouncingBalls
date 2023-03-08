@@ -146,31 +146,50 @@
             requestAnimationFrame(frame);
         }
 
+        //not to be confused with frame -- this one deletes everything and recreates everything from scratch
         function refreshScreen() {
-
             //changes ball width
             let ballDiameterFromInput = document.getElementById("ballDiameter").value;
-            if (ballDiameterFromInput > 0) {
+            if (ballDiameterFromInput < 1) {
+                ballDiameter = 1;
+            }
+            else {
                 ballDiameter = ballDiameterFromInput;
             }
-
             //gets number of balls
             let numBallsFromInput = document.getElementById("number_of_balls").value;
-            if (numBallsFromInput > 0) {
+            if (numBallsFromInput <= 0) {
+                numBalls = 0;
+            }
+            else {
                 numBalls = numBallsFromInput;
             }
-
             //changes container width and height
             let containerWidthFromInput = document.getElementById("canvasWidth").value;
-            if (containerWidthFromInput > 1) {
+            if (containerWidthFromInput <= ballDiameter) {
+                containerWidth = ballDiameter;
+            }
+            else {
                 containerWidth = containerWidthFromInput;
-                document.getElementById("container").style.width = containerWidth + "px";
             }
+
             let containerHeightFromInput = document.getElementById("canvasHeight").value;
-            if (containerHeightFromInput > 1) {
-                containerHeight = containerHeightFromInput;
-                document.getElementById("container").style.height = containerHeight + "px";
+            if (containerHeightFromInput <= ballDiameter) {
+                containerHeight = ballDiameter;
             }
+            else {
+                containerHeight = containerHeightFromInput;
+            }
+
+            //resize the canvas
+            document.getElementById("container").style.width = containerWidth + "px";
+            document.getElementById("container").style.height = containerHeight + "px";
+
+            //refreshes text input values (mostly in case the value goes out of range)
+            document.getElementById('number_of_balls').value = numBalls;
+            document.getElementById('ballDiameter').value = ballDiameter;
+            document.getElementById('canvasWidth').value = containerWidth;
+            document.getElementById('canvasHeight').value = containerHeight;
 
             //delete all old divs
             for (let i = 0; i < balls.length; i++) {
@@ -212,11 +231,11 @@
         <label for="refresh">Refresh</label>        
     </form>
     <script>
-        //adds default text to the text box
-        document.getElementById('number_of_balls').placeholder = numBalls;
-        document.getElementById('ballDiameter').placeholder = ballDiameter;
-        document.getElementById('canvasWidth').placeholder = containerWidth;
-        document.getElementById('canvasHeight').placeholder = containerHeight;
+        //adds default values to the text box
+        document.getElementById('number_of_balls').value = numBalls;
+        document.getElementById('ballDiameter').value = ballDiameter;
+        document.getElementById('canvasWidth').value = containerWidth;
+        document.getElementById('canvasHeight').value = containerHeight;
     </script>
 
   </body>
