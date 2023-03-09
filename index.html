@@ -76,25 +76,6 @@
             }
         }
 
-        // function detectedCollision(ball, ball_j) {
-        //     let ballRadius = ballDiameter / 2;
-        //     //center coordinates for balls
-        //     let ball_center = {
-        //         x: ball.x + ballRadius,
-        //         y: ball.y + ballRadius
-        //     }
-        //     let ball_j_center = {
-        //         x: ball_j.x + ballRadius,
-        //         y: ball_j.y + ballRadius
-        //     }
-
-        //     let distanceBetweenCenters = Math.sqrt((ball_center.x - ball_j_center.x)**2 + (ball_center.y - ball_j_center.y)**2);
-
-        //     return distanceBetweenCenters <= ballDiameter;
-        //     // return Math.abs(Math.ceil(distanceBetweenCenters) - ballDiameter) < 1;
-        //     //TODO: fix bug where balls spawn inside of each other and get stuck 
-        // }
-
         function handleCollisions(ball) {
             //check for collision with boundaries
             if (ball.x >= containerWidth - ballDiameter) {
@@ -110,28 +91,6 @@
             else if (ball.y <= 0) {
                 ball.yDirection = 1;
             }
-
-            // //check for collisions with other balls
-            // for (let j = 0; j < balls.length; j++) {
-
-            //     if ((ball.id != balls[j].id) && detectedCollision(ball, balls[j])) {
-            //         //reverses direction if  collision is detected
-            //         if (ball.xDirection == 1) {
-            //             ball.xDirection = 0;
-            //         }
-            //         else if (ball.xDirection == 0) {
-            //             ball.xDirection = 1;
-            //         }
-            //         if (ball.yDirection == 1) {
-            //             ball.yDirection = 0;
-            //         }
-            //         else if (ball.yDirection == 0) {
-            //             ball.yDirection = 1;
-            //         }
-
-            //     }
-
-            // }   
         }
 
         function frame() {
