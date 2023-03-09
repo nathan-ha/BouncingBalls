@@ -10,6 +10,17 @@
             border-style: solid;
             border-color: black;
         }
+        .block {
+            display: block;
+            width: 70.9%;
+            border: none;
+            background-color: rgb(240,240,240);
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            border-style: solid;
+            border-color: rgba(210,210,210,0.5);
+        }
     </style>
     <script>
         var balls = [];
@@ -61,6 +72,7 @@
         }
 
         function moveBall(ball) {
+
             if (ball.xDirection == 1) {
                 ball.x += ball.xSpeed;
             }
@@ -96,16 +108,20 @@
         function handleCollisions(ball) {
             //check for collision with boundaries
             if (ball.x >= containerWidth - ballDiameter) {
+                ball.x = containerWidth - ballDiameter;
                 ball.xDirection = 0;
             }
             else if (ball.x <= 0) {
+                ball.x = 0
                 ball.xDirection = 1;
             }
 
             if (ball.y >= containerHeight - ballDiameter) {
+                ball.y = containerHeight - ballDiameter;
                 ball.yDirection = 0;
             }
             else if (ball.y <= 0) {
+                ball.y = 0;
                 ball.yDirection = 1;
             }
 
@@ -126,13 +142,13 @@
                     else if (ball.yDirection == 0) {
                         ball.yDirection = 1;
                     }
+
+                    for (let k = 0; k < ballDiameter && detectedCollision(ball, balls[j]); k++) {
+                        moveBall(ball);
+                    }
                 }
-
-                // while (detectedCollision(ball, balls[j])) {
-                //     moveBall(ball);
-                // }
-
-            }   
+                
+            } 
         }
 
         function frame() {
@@ -181,7 +197,6 @@
                 containerHeight = containerHeightFromInput;
             }
 
-
             //resize the canvas
             document.getElementById("container").style.width = containerWidth + "px";
             document.getElementById("container").style.height = containerHeight + "px";
@@ -199,15 +214,30 @@
             //clear the ball list and make new ones
             balls = [];
             createBalls(numBalls);
-
         }
 
     </script>
   </head>
   <body>
     <main>
+        <form id="inputs">
+            <label for="number_of_balls">Number of Balls:</label>
+            <input type="text" id="number_of_balls">
+    
+            <label for="ballDiameter">Ball Diameter (px):</label>
+            <input type="text" id="ballDiameter">
+    
+            <label for="canvasWidth">Canvas Width (px):</label>
+            <input type="text" id="canvasWidth">
+            <label for="canvasHeight">Canvas Height (px):</label>
+            <input type="text" id="canvasHeight">  
+
+            <button type="text" id="refresh" class="block" onclick="refreshScreen()">Refresh</button>
+        </form>  
+        
         <div id="container"></div>
         <script>
+            console.log("program started " + (new Date()).getTime());
             //TODO: implement resizing the canvas by dragging mouse
             document.getElementById("container").style.width = containerWidth + "px";
             document.getElementById("container").style.height = containerHeight + "px";
@@ -215,23 +245,6 @@
             requestAnimationFrame(frame);
         </script>
     </main>
-
-    <form id="inputs">
-        <label for="number_of_balls">Number of Balls:</label>
-        <input type="text" id="number_of_balls">
-
-        <label for="ballDiameter">Ball Diameter (px):</label>
-        <input type="text" id="ballDiameter">
-
-        <label for="canvasWidth">Canvas Width (px):</label>
-        <input type="text" id="canvasWidth">
-        <label for="canvasHeight">Canvas Height (px):</label>
-        <input type="text" id="canvasHeight">
-        <br>    
-    </form>
-
-    <button type="text" id="refresh" onclick="refreshScreen()">
-    <label for="refresh">Refresh</label>    
     
     <script>
         //adds default values to the text box
