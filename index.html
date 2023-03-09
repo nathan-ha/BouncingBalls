@@ -149,15 +149,15 @@
         //not to be confused with frame -- this one deletes everything and recreates everything from scratch
         function refreshScreen() {
             //changes ball width
-            let ballDiameterFromInput = document.getElementById("ballDiameter").value;
-            if (ballDiameterFromInput < 1) {
+            let ballDiameterFromInput = Number(document.getElementById("ballDiameter").value);
+            if (ballDiameterFromInput <= 1) {
                 ballDiameter = 1;
             }
             else {
                 ballDiameter = ballDiameterFromInput;
             }
             //gets number of balls
-            let numBallsFromInput = document.getElementById("number_of_balls").value;
+            let numBallsFromInput = Number(document.getElementById("number_of_balls").value);
             if (numBallsFromInput <= 0) {
                 numBalls = 0;
             }
@@ -165,21 +165,21 @@
                 numBalls = numBallsFromInput;
             }
             //changes container width and height
-            let containerWidthFromInput = document.getElementById("canvasWidth").value;
+            let containerWidthFromInput = Number(document.getElementById("canvasWidth").value);
             if (containerWidthFromInput <= ballDiameter) {
                 containerWidth = ballDiameter;
             }
             else {
                 containerWidth = containerWidthFromInput;
             }
-
-            let containerHeightFromInput = document.getElementById("canvasHeight").value;
+            let containerHeightFromInput = Number(document.getElementById("canvasHeight").value);
             if (containerHeightFromInput <= ballDiameter) {
                 containerHeight = ballDiameter;
             }
             else {
                 containerHeight = containerHeightFromInput;
             }
+
 
             //resize the canvas
             document.getElementById("container").style.width = containerWidth + "px";
@@ -198,6 +198,7 @@
             //clear the ball list and make new ones
             balls = [];
             createBalls(numBalls);
+
         }
 
     </script>
@@ -225,11 +226,12 @@
         <input type="text" id="canvasWidth">
         <label for="canvasHeight">Canvas Height (px):</label>
         <input type="text" id="canvasHeight">
-        <br>
-
-        <button type="text" id="refresh" onclick="refreshScreen()">
-        <label for="refresh">Refresh</label>        
+        <br>    
     </form>
+
+    <button type="text" id="refresh" onclick="refreshScreen()">
+    <label for="refresh">Refresh</label>    
+    
     <script>
         //adds default values to the text box
         document.getElementById('number_of_balls').value = numBalls;
