@@ -62,8 +62,8 @@
 
         function moveBall(ball) {
             if (ball.xDirection == 1) {
-                    ball.x += ball.xSpeed;
-                }
+                ball.x += ball.xSpeed;
+            }
             else {
                 ball.x -= ball.xSpeed;
             }
@@ -76,29 +76,27 @@
             }
         }
 
-        // function detectedCollision(ball, ball_j) {
-        //     let ballRadius = ballDiameter / 2;
-        //     //center coordinates for balls
-        //     let ball_center = {
-        //         x: ball.x + ballRadius,
-        //         y: ball.y + ballRadius
-        //     }
-        //     let ball_j_center = {
-        //         x: ball_j.x + ballRadius,
-        //         y: ball_j.y + ballRadius
-        //     }
+        function detectedCollision(ball, ball_j) {
+            let ballRadius = ballDiameter / 2;
+            //center coordinates for balls
+            let ball_center = {
+                x: ball.x + ballRadius,
+                y: ball.y + ballRadius
+            }
+            let ball_j_center = {
+                x: ball_j.x + ballRadius,
+                y: ball_j.y + ballRadius
+            }
 
-        //     let distanceBetweenCenters = Math.sqrt((ball_center.x - ball_j_center.x)**2 + (ball_center.y - ball_j_center.y)**2);
+            let distanceBetweenCenters = Math.sqrt((ball_center.x - ball_j_center.x)**2 + (ball_center.y - ball_j_center.y)**2);
 
-        //     return distanceBetweenCenters <= ballDiameter;
-        //     // return Math.abs(Math.ceil(distanceBetweenCenters) - ballDiameter) < 1;
-        //     //TODO: fix bug where balls spawn inside of each other and get stuck 
-        // }
+            return distanceBetweenCenters <= ballDiameter;
+        }
 
         function handleCollisions(ball) {
             //check for collision with boundaries
             if (ball.x >= containerWidth - ballDiameter) {
-                    ball.xDirection = 0;
+                ball.xDirection = 0;
             }
             else if (ball.x <= 0) {
                 ball.xDirection = 1;
@@ -111,32 +109,35 @@
                 ball.yDirection = 1;
             }
 
-            // //check for collisions with other balls
-            // for (let j = 0; j < balls.length; j++) {
+            //check for collisions with other balls
+            for (let j = 0; j < balls.length; j++) {
 
-            //     if ((ball.id != balls[j].id) && detectedCollision(ball, balls[j])) {
-            //         //reverses direction if  collision is detected
-            //         if (ball.xDirection == 1) {
-            //             ball.xDirection = 0;
-            //         }
-            //         else if (ball.xDirection == 0) {
-            //             ball.xDirection = 1;
-            //         }
-            //         if (ball.yDirection == 1) {
-            //             ball.yDirection = 0;
-            //         }
-            //         else if (ball.yDirection == 0) {
-            //             ball.yDirection = 1;
-            //         }
+                if ((ball.id != balls[j].id) && detectedCollision(ball, balls[j])) {
+                    //reverses direction if  collision is detected
+                    if (ball.xDirection == 1) {
+                        ball.xDirection = 0;
+                    }
+                    else if (ball.xDirection == 0) {
+                        ball.xDirection = 1;
+                    }
+                    if (ball.yDirection == 1) {
+                        ball.yDirection = 0;
+                    }
+                    else if (ball.yDirection == 0) {
+                        ball.yDirection = 1;
+                    }
+                }
 
-            //     }
+                // while (detectedCollision(ball, balls[j])) {
+                //     moveBall(ball);
+                // }
 
-            // }   
+            }   
         }
 
         function frame() {
             for (let i = 0; i < balls.length; i++) {
-                //initial draw balls
+                //draw balls
                 document.getElementById(balls[i].id).style.left = balls[i].x + "px";
                 document.getElementById(balls[i].id).style.top = balls[i].y + "px";
 
@@ -149,15 +150,15 @@
         //not to be confused with frame -- this one deletes everything and recreates everything from scratch
         function refreshScreen() {
             //changes ball width
-            let ballDiameterFromInput = document.getElementById("ballDiameter").value;
-            if (ballDiameterFromInput < 1) {
+            let ballDiameterFromInput = Number(document.getElementById("ballDiameter").value);
+            if (ballDiameterFromInput <= 1) {
                 ballDiameter = 1;
             }
             else {
                 ballDiameter = ballDiameterFromInput;
             }
             //gets number of balls
-            let numBallsFromInput = document.getElementById("number_of_balls").value;
+            let numBallsFromInput = Number(document.getElementById("number_of_balls").value);
             if (numBallsFromInput <= 0) {
                 numBalls = 0;
             }
@@ -165,21 +166,21 @@
                 numBalls = numBallsFromInput;
             }
             //changes container width and height
-            let containerWidthFromInput = document.getElementById("canvasWidth").value;
+            let containerWidthFromInput = Number(document.getElementById("canvasWidth").value);
             if (containerWidthFromInput <= ballDiameter) {
                 containerWidth = ballDiameter;
             }
             else {
                 containerWidth = containerWidthFromInput;
             }
-
-            let containerHeightFromInput = document.getElementById("canvasHeight").value;
+            let containerHeightFromInput = Number(document.getElementById("canvasHeight").value);
             if (containerHeightFromInput <= ballDiameter) {
                 containerHeight = ballDiameter;
             }
             else {
                 containerHeight = containerHeightFromInput;
             }
+
 
             //resize the canvas
             document.getElementById("container").style.width = containerWidth + "px";
@@ -198,6 +199,7 @@
             //clear the ball list and make new ones
             balls = [];
             createBalls(numBalls);
+
         }
 
     </script>
@@ -225,11 +227,12 @@
         <input type="text" id="canvasWidth">
         <label for="canvasHeight">Canvas Height (px):</label>
         <input type="text" id="canvasHeight">
-        <br>
-
-        <button type="text" id="refresh" onclick="refreshScreen()">
-        <label for="refresh">Refresh</label>        
+        <br>    
     </form>
+
+    <button type="text" id="refresh" onclick="refreshScreen()">
+    <label for="refresh">Refresh</label>    
+    
     <script>
         //adds default values to the text box
         document.getElementById('number_of_balls').value = numBalls;
